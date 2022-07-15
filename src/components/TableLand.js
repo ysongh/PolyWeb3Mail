@@ -1,13 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Import `connect` from the Tableland library
 import { connect, resultsToObjects } from "@tableland/sdk";
+
+import LitJsSdk from 'lit-js-sdk';
 
 function TableLand() {
   const [tablelandMethods, setTablelandMethods] = useState("");
   const [tableName, setTableName] = useState("");
   const [text, setText] = useState("");
   const [content, setContent] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    connectTpLitNetwork();
+  }, [])
+
+  const connectTpLitNetwork = async () => {
+    setLoading(true);
+    const client = new LitJsSdk.LitNodeClient();
+    await client.connect();
+    console.log(client);
+    window.litNodeClient = client;
+
+    document.addEventListener('lit-ready', function (e) {
+      console.log('LIT network is ready')
+      setLoading(false) // replace this line with your own code that tells your app the network is ready
+    }, false)
+  }
 
   const connectToTableLand = async () => {
     // Connect to the Tableland testnet (defaults to Goerli testnet)
@@ -65,8 +85,71 @@ function TableLand() {
     formatData(readRes);
   }
 
+  const messageToEncrypt = async () => {
+    const chain = 'ethereum';
+
+    const authSig = await LitJsSdk.checkAndSignAuthMessage({chain})
+
+    const accessControlConditions = [
+      {
+        contractAddress: '',
+        standardContractType: '',
+        chain: 'ethereum',
+        method: 'eth_getBalance',
+        parameters: [':userAddress', 'latest'],
+        returnValueTest: {
+          comparator: '>=',
+          value: '0',  // 0 ETH, so anyone can open
+        },
+      },
+    ];
+
+    // 1. Encryption
+    // <Blob> encryptedString
+    // <Uint8Array(32)> symmetricKey 
+    const { encryptedString, symmetricKey } = await LitJsSdk.encryptString(text);
+
+    console.warn("symmetricKey:", symmetricKey);
+    
+    // 2. Saving the Encrypted Content to the Lit Nodes
+    // <Unit8Array> encryptedSymmetricKey
+    const encryptedSymmetricKey = await window.litNodeClient.saveEncryptionKey({
+      accessControlConditions,
+      symmetricKey,
+      authSig,
+      chain,
+    });
+    
+    console.warn("encryptedSymmetricKey:", encryptedSymmetricKey);
+    console.warn("encryptedString:", encryptedString);
+
+    // 3. Decrypt it
+    // <String> toDecrypt
+    const toDecrypt = LitJsSdk.uint8arrayToString(encryptedSymmetricKey, 'base16');
+    console.log("toDecrypt:", toDecrypt);
+
+    // <Uint8Array(32)> _symmetricKey 
+    const _symmetricKey = await window.litNodeClient.getEncryptionKey({
+      accessControlConditions,
+      toDecrypt,
+      chain,
+      authSig
+    })
+
+    console.warn("_symmetricKey:", _symmetricKey);
+
+    // <String> decryptedString
+    const decryptedString = await LitJsSdk.decryptString(
+      encryptedString,
+      symmetricKey
+    );
+
+    console.warn("decryptedString:", decryptedString);
+  }
+
   return (
     <div>
+      {loading && <p>Loading...</p>}
       <button onClick={connectToTableLand}>
         Connect To TableLand
       </button>
@@ -77,6 +160,9 @@ function TableLand() {
       <input placeholder='text' onChange={(e) => setText(e.target.value)}/>
       <button onClick={insertDataToTable}>
         Add
+      </button>
+      <button onClick={messageToEncrypt}>
+        Encrypt
       </button>
       {content.map(c => (
         <p key={c.id}>{c.name}</p>
