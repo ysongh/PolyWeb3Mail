@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-
-// Import `connect` from the Tableland library
-import { connect, resultsToObjects } from "@tableland/sdk";
-
+import { connect, resultsToObjects } from "@tableland/sdk";   // Import `connect` from the Tableland library
 import LitJsSdk from 'lit-js-sdk';
+import { NFTStorage, File } from 'nft.storage';
+
+import { NFT_STORAGE_APIKEY } from '../config';
+import { blobToDataURI, dataURItoBlob } from '../helpers/convertMethods';
+
+const client = new NFTStorage({ token: NFT_STORAGE_APIKEY })
 
 function TableLand() {
   const [tablelandMethods, setTablelandMethods] = useState("");
@@ -32,7 +35,7 @@ function TableLand() {
   const connectToTableLand = async () => {
     // Connect to the Tableland testnet (defaults to Goerli testnet)
     // @return {Connection} Interface to access the Tableland network and target chain
-    const tableland = await connect({ chain: 'polygon-mumbai' })
+    const tableland = await connect({ chain: 'ethereum-goerli' })
     console.log(tableland);
     setTablelandMethods(tableland);
 
@@ -66,29 +69,25 @@ function TableLand() {
     let temp = [];
     for (const { name, id } of entries) {
       console.log(`${name}: ${id}`);
-      temp.push({ id, name});
+      const text = await messageToDecrypt(name);
+      temp.push({ id, name: text});
     }
 
     setContent(temp);
   }
 
-  const insertDataToTable = async () => {
+  const insertDataToTable = async (cid) => {
     console.log(tableName)
     // Insert a row into the table
     // @return {WriteQueryResult} On-chain transaction hash of the write query
-    const writeRes = await tablelandMethods.write(`INSERT INTO ${tableName} (id, name) VALUES ('${content.length + 1}', '${text}');`);
+    const writeRes = await tablelandMethods.write(`INSERT INTO ${tableName} (id, name) VALUES ('${content.length + 1}', '${cid}');`);
     console.log(writeRes);
-
-    const readRes = await tablelandMethods.read(`SELECT * FROM ${tableName};`);
-    console.log(readRes);
-
-    formatData(readRes);
   }
 
   const messageToEncrypt = async () => {
     const chain = 'ethereum';
 
-    const authSig = await LitJsSdk.checkAndSignAuthMessage({chain})
+    const authSig = await LitJsSdk.checkAndSignAuthMessage({chain});
 
     const accessControlConditions = [
       {
@@ -103,7 +102,6 @@ function TableLand() {
         },
       },
     ];
-
     // 1. Encryption
     // <Blob> encryptedString
     // <Uint8Array(32)> symmetricKey 
@@ -122,6 +120,20 @@ function TableLand() {
     
     console.warn("encryptedSymmetricKey:", encryptedSymmetricKey);
     console.warn("encryptedString:", encryptedString);
+
+    const prepareToUpload = new File(
+      [JSON.stringify(
+        {
+          encryptedSymmetricKey: Array.from(encryptedSymmetricKey),   // Convert Unit8Array to Array
+          encryptedString: await blobToDataURI(encryptedString)
+        },
+        null,
+        2
+      )], 'metadata.json');
+
+    const cid = await client.storeDirectory([prepareToUpload]);
+    console.log(cid);
+    insertDataToTable(cid);
 
     // 3. Decrypt it
     // <String> toDecrypt
@@ -147,6 +159,59 @@ function TableLand() {
     console.warn("decryptedString:", decryptedString);
   }
 
+  const messageToDecrypt = async (cid) => {
+    try{
+      const chain = 'ethereum';
+
+      const authSig = await LitJsSdk.checkAndSignAuthMessage({chain});
+
+      const accessControlConditions = [
+        {
+          contractAddress: '',
+          standardContractType: '',
+          chain: 'ethereum',
+          method: 'eth_getBalance',
+          parameters: [':userAddress', 'latest'],
+          returnValueTest: {
+            comparator: '>=',
+            value: '0',  // 0 ETH, so anyone can open
+          },
+        },
+      ];
+
+      let data = await fetch(`https://${cid}.ipfs.dweb.link/metadata.json`);
+      data = await data.json();
+      console.log(data);
+
+      // 3. Decrypt it
+      // <String> toDecrypt
+      // Convert Array to Unit8Array
+      const toDecrypt = LitJsSdk.uint8arrayToString(new Uint8Array(data.encryptedSymmetricKey), 'base16');
+      console.log("toDecrypt:", toDecrypt);
+
+      // <Uint8Array(32)> _symmetricKey 
+      const _symmetricKey = await window.litNodeClient.getEncryptionKey({
+        accessControlConditions,
+        toDecrypt,
+        chain,
+        authSig
+      })
+
+      console.warn("_symmetricKey:", _symmetricKey);
+
+      // <String> decryptedString
+      const decryptedString = await LitJsSdk.decryptString(
+        dataURItoBlob(data.encryptedString),
+        _symmetricKey
+      );
+
+      console.warn("decryptedString:", decryptedString);
+      return decryptedString;
+    } catch (error) {
+      console.error(error);
+    } 
+  }
+
   return (
     <div>
       {loading && <p>Loading...</p>}
@@ -158,11 +223,8 @@ function TableLand() {
       </button>
       <h1>{tableName}</h1>
       <input placeholder='text' onChange={(e) => setText(e.target.value)}/>
-      <button onClick={insertDataToTable}>
-        Add
-      </button>
       <button onClick={messageToEncrypt}>
-        Encrypt
+        Encrypt and Add
       </button>
       {content.map(c => (
         <p key={c.id}>{c.name}</p>
