@@ -11,6 +11,7 @@
     "nft.storage": "^3.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.3.0",
     "react-scripts": "4.0.2",
     "web-vitals": "^2.1.4"
   },
