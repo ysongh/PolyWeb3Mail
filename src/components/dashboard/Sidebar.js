@@ -3,16 +3,21 @@ import { Box, Drawer, CssBaseline, AppBar, Toolbar, List, Typography, Divider, L
 
 import EmailIcon from '@mui/icons-material/Email';
 import MessageIcon from '@mui/icons-material/Message';
+import SendIcon from '@mui/icons-material/Send';
 
 const drawerLinks = [
   {
-    "text": "Mail",
+    "text": "All Mail",
     "icon": <EmailIcon />
   },
   {
     "text": "Message",
     "icon": <MessageIcon />
-  }
+  },
+  {
+    "text": "Send Mail",
+    "icon": <SendIcon />
+  },
 ];
 const drawerWidth = 200;
 
