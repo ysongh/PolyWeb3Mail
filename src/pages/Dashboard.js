@@ -39,7 +39,7 @@ function Dashboard({ tablelandMethods, tableName }) {
       >
         <Toolbar />
         {loading && <p>Loading...</p>}
-        {currentSection === "Mail"
+        {currentSection === "All Mail"
           && <Mail
             tablelandMethods={tablelandMethods}
             tableName={tableName} /> }
