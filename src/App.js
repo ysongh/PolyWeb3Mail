@@ -1,6 +1,7 @@
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes, Link } from 'react-router-dom';
 
 import TableLand from './components/TableLand';
+import Dashboard from './pages/Dashboard';
 
 function App() {
   return (
@@ -11,9 +12,13 @@ function App() {
           element={
             <TableLand /> } />
         <Route
+          path="/dashboard"
+          element={
+            <Dashboard /> } />
+        <Route
           path="/"
           element={
-            <h1>Home</h1>} />
+            <Link to="/dashboard">Enter</Link>} />
       </Routes>
     </HashRouter>
   );
