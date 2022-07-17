@@ -3,14 +3,15 @@ import { Box, CssBaseline, Toolbar } from '@mui/material';
 
 import Navbar from '../components/dashboard/Navbar';
 import Sidebar from '../components/dashboard/Sidebar';
+import Mail from '../components/dashboard/Mail';
 
-function Dashboard() {
+function Dashboard({ tablelandMethods, tableName }) {
   const [currentSection, setCurrentSection] = useState("Mail");
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <Navbar />
+      <Navbar tableName={tableName} />
       <Sidebar setCurrentSection={setCurrentSection} />
       <Box
         component="main"
@@ -18,7 +19,9 @@ function Dashboard() {
       >
         <Toolbar />
         {currentSection === "Mail"
-          && <p>Mail</p> }
+          && <Mail
+            tablelandMethods={tablelandMethods}
+            tableName={tableName} /> }
         {currentSection === "Message"
           && <p>Message</p> }
       </Box>

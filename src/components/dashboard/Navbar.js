@@ -1,9 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'
 import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 
 const drawerWidth = 200;
 
-function Navbar() {
+function Navbar({ tableName }) {
+  const navigate = useNavigate();
   return (
     <AppBar
       position="fixed"
@@ -14,8 +16,8 @@ function Navbar() {
           PolyWeb3Mail
         </Typography>
         <div style={{ display: 'flex', alignItems: 'center'}}>
-          <p style={{ marginRight: '.7rem' }}>Test</p>
-          <Button variant="contained" color="secondary">
+          <p style={{ marginRight: '.7rem' }}>{tableName}</p>
+          <Button variant="contained" color="secondary" onClick={() => navigate('/')}>
             Logout
           </Button>
         </div>
