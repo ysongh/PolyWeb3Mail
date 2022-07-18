@@ -4,7 +4,7 @@ import LitJsSdk from 'lit-js-sdk';
 
 import { dataURItoBlob } from '../../helpers/convertMethods';
 
-function Mail({ tablelandMethods, tableName }) {
+function Mail({ tablelandMethods, tableName, setMailCount }) {
   const [mails, setMails] = useState([]);
 
   useEffect(() => {
@@ -25,6 +25,7 @@ function Mail({ tablelandMethods, tableName }) {
     }
 
     setMails(temp);
+    setMailCount(temp.length);
   }
 
   const messageToDecrypt = async (cid) => {

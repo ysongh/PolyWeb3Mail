@@ -8,7 +8,8 @@ import Mail from '../components/dashboard/Mail';
 import SendMail from '../components/dashboard/SendMail';
 
 function Dashboard({ tablelandMethods, tableName }) {
-  const [currentSection, setCurrentSection] = useState("Mail");
+  const [currentSection, setCurrentSection] = useState("All Mail");
+  const [mailCount, setMailCount] = useState(0);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -42,13 +43,15 @@ function Dashboard({ tablelandMethods, tableName }) {
         {currentSection === "All Mail"
           && <Mail
             tablelandMethods={tablelandMethods}
-            tableName={tableName} /> }
+            tableName={tableName}
+            setMailCount={setMailCount} /> }
         {currentSection === "Message"
           && <p>Message</p> }
         {currentSection === "Send Mail"
           && <SendMail
             tablelandMethods={tablelandMethods}
-            tableName={tableName} /> }
+            tableName={tableName}
+            mailCount={mailCount} /> }
       </Box>
     </Box>
   )

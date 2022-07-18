@@ -1,13 +1,76 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@mui/material';
+import { NFTStorage, File } from 'nft.storage';
+import LitJsSdk from 'lit-js-sdk';
 
-function SendMail() {
+import { NFT_STORAGE_APIKEY } from '../../config';
+import { blobToDataURI } from '../../helpers/convertMethods';
+
+const client = new NFTStorage({ token: NFT_STORAGE_APIKEY });
+
+function SendMail({ tablelandMethods, tableName, mailCount }) {
   const [to, setTo] = useState("");
   const [subject, setSubject] = useState(false);
   const [text, setText] = useState(false);
+  const [loading, setLoading] = useState(false); 
 
-  const sendMail = () => {
-    console.log(to, subject, text);
+  const sendMail = async () => {
+    try{
+      setLoading(true);
+      console.log(to, subject, text);
+      const chain = 'ethereum';
+      const authSig = await LitJsSdk.checkAndSignAuthMessage({chain});
+      const accessControlConditions = [
+        {
+          contractAddress: '',
+          standardContractType: '',
+          chain: 'ethereum',
+          method: 'eth_getBalance',
+          parameters: [':userAddress', 'latest'],
+          returnValueTest: {
+            comparator: '>=',
+            value: '0',  // 0 ETH, so anyone can open
+          },
+        },
+      ];
+      // 1. Encryption
+      // <Blob> encryptedString
+      // <Uint8Array(32)> symmetricKey 
+      const { encryptedString, symmetricKey } = await LitJsSdk.encryptString(text);
+
+      console.warn("symmetricKey:", symmetricKey);
+      
+      // 2. Saving the Encrypted Content to the Lit Nodes
+      // <Unit8Array> encryptedSymmetricKey
+      const encryptedSymmetricKey = await window.litNodeClient.saveEncryptionKey({
+        accessControlConditions,
+        symmetricKey,
+        authSig,
+        chain,
+      });
+      
+      console.warn("encryptedSymmetricKey:", encryptedSymmetricKey);
+      console.warn("encryptedString:", encryptedString);
+
+      const prepareToUpload = new File(
+        [JSON.stringify(
+          {
+            encryptedSymmetricKey: Array.from(encryptedSymmetricKey),   // Convert Unit8Array to Array
+            encryptedString: await blobToDataURI(encryptedString)
+          },
+          null,
+          2
+        )], 'metadata.json');
+
+      const cid = await client.storeDirectory([prepareToUpload]);
+      console.log(cid);
+      const writeRes = await tablelandMethods.write(`INSERT INTO ${tableName} (id, name) VALUES ('${mailCount + 1}', '${cid}');`);
+      console.log(writeRes);
+      setLoading(false);
+    } catch(error) {
+      console.error(error);
+      setLoading(false);
+    }
   }
 
   return (
@@ -24,9 +87,12 @@ function SendMail() {
         />
       <br />
       <br />
-      <Button variant="contained" color="primary" size="large" onClick={sendMail}>
-        Send
-      </Button>
+      {!loading
+        ? <Button variant="contained" color="primary" size="large" onClick={sendMail}>
+            Send
+          </Button>
+        : <p>Loading...</p>
+      }
     </div>
   )
 }
