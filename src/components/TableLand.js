@@ -212,6 +212,12 @@ function TableLand() {
     } 
   }
 
+  const deleteDAataFromTable = async (id) => {
+    // If desired, the row can later be removed
+    const removeRes = await tablelandMethods.write(`DELETE FROM ${tableName} WHERE id = ${id};`);
+    console.log(removeRes)
+  }
+
   return (
     <div>
       {loading && <p>Loading...</p>}
@@ -227,8 +233,15 @@ function TableLand() {
         Encrypt and Add
       </button>
       {content.map(c => (
-        <p key={c.id}>{c.name}</p>
+        <div key={c.id}>
+          <p>{c.name}</p>
+          <button onClick={() => deleteDAataFromTable(c.id)}>
+            Delete
+          </button>
+        </div>
+        
       ))}
+      
     </div>
   )
 }
