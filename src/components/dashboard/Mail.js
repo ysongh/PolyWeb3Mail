@@ -20,8 +20,9 @@ function Mail({ tablelandMethods, tableName, setMailCount }) {
 
     for (const { name, id } of entries) {
       console.log(`${name}: ${id}`);
-      const text = await messageToDecrypt(name);
-      temp.push({ id, name: text});
+      const strData = await messageToDecrypt(name);
+      const toObject = await JSON.parse(strData);
+      temp.push({ id, data: toObject});
     }
 
     setMails(temp);
@@ -79,7 +80,11 @@ function Mail({ tablelandMethods, tableName, setMailCount }) {
   return (
     <div>
       {mails.map(m => (
-        <p key={m.id}>{m.name}</p>
+        <div key={m.id}>
+          <p>{m.data.subject}</p>
+          <p>{m.data.text}</p>
+        </div>
+       
       ))}
     </div>
   )

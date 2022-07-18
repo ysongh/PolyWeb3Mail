@@ -33,10 +33,12 @@ function SendMail({ tablelandMethods, tableName, mailCount }) {
           },
         },
       ];
+      const userData = JSON.stringify({ subject, text });
+
       // 1. Encryption
       // <Blob> encryptedString
       // <Uint8Array(32)> symmetricKey 
-      const { encryptedString, symmetricKey } = await LitJsSdk.encryptString(text);
+      const { encryptedString, symmetricKey } = await LitJsSdk.encryptString(userData);
 
       console.warn("symmetricKey:", symmetricKey);
       
