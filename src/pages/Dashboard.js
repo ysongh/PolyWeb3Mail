@@ -5,8 +5,7 @@ import LitJsSdk from 'lit-js-sdk';
 import Navbar from '../components/dashboard/Navbar';
 import Sidebar from '../components/dashboard/Sidebar';
 import Mail from '../components/dashboard/Mail';
-import SendMail from '../components/dashboard/SendMail';
-import SendNFT from '../components/dashboard/SendNFT';
+import Send from '../components/dashboard/Send';
 
 function Dashboard({ tablelandMethods, tableName }) {
   const [currentSection, setCurrentSection] = useState("All Mail");
@@ -48,13 +47,11 @@ function Dashboard({ tablelandMethods, tableName }) {
             setMailCount={setMailCount} /> }
         {currentSection === "Message"
           && <p>Message</p> }
-        {currentSection === "Send Mail"
-          && <SendMail
+        {currentSection === "Send"
+          && <Send
             tablelandMethods={tablelandMethods}
             tableName={tableName}
             mailCount={mailCount} /> }
-        {currentSection === "Send NFT"
-          && <SendNFT /> }
       </Box>
     </Box>
   )
