@@ -4,6 +4,7 @@ import { Box, Drawer, CssBaseline, AppBar, Toolbar, List, Typography, Divider, L
 import EmailIcon from '@mui/icons-material/Email';
 import MessageIcon from '@mui/icons-material/Message';
 import SendIcon from '@mui/icons-material/Send';
+import PanoramaIcon from '@mui/icons-material/Panorama';
 
 const drawerLinks = [
   {
@@ -17,6 +18,10 @@ const drawerLinks = [
   {
     "text": "Send Mail",
     "icon": <SendIcon />
+  },
+  {
+    "text": "Send NFT",
+    "icon": <PanoramaIcon />
   },
 ];
 const drawerWidth = 200;

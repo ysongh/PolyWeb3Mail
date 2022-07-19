@@ -91,7 +91,7 @@ function SendMail({ tablelandMethods, tableName, mailCount }) {
       <br />
       {!loading
         ? <Button variant="contained" color="primary" size="large" onClick={sendMail}>
-            Send
+            Send Mail
           </Button>
         : <p>Loading...</p>
       }

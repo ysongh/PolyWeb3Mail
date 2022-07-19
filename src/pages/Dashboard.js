@@ -6,6 +6,7 @@ import Navbar from '../components/dashboard/Navbar';
 import Sidebar from '../components/dashboard/Sidebar';
 import Mail from '../components/dashboard/Mail';
 import SendMail from '../components/dashboard/SendMail';
+import SendNFT from '../components/dashboard/SendNFT';
 
 function Dashboard({ tablelandMethods, tableName }) {
   const [currentSection, setCurrentSection] = useState("All Mail");
@@ -52,6 +53,8 @@ function Dashboard({ tablelandMethods, tableName }) {
             tablelandMethods={tablelandMethods}
             tableName={tableName}
             mailCount={mailCount} /> }
+        {currentSection === "Send NFT"
+          && <SendNFT /> }
       </Box>
     </Box>
   )
