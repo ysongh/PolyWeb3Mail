@@ -218,6 +218,14 @@ function TableLand() {
     console.log(removeRes)
   }
 
+  const checkForTableNameByAddress = async () => {
+    const res = await fetch(`${tablelandMethods.options.host}/chain/${tablelandMethods.options.chainId}/tables/controller/${tablelandMethods.options.controller}`).then(
+      (r) => r.json()
+    )
+    console.log(res);
+  }
+
+
   return (
     <div>
       {loading && <p>Loading...</p>}

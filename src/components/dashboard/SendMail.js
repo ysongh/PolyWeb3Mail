@@ -76,7 +76,7 @@ function SendMail({ tablelandMethods, tableName, mailCount }) {
       setLoading(false);
     }
   }
-
+  
   return (
     <div>
       <TextField variant="standard" placeholder='To'  onChange={(e) => setTo(e.target.value)} fullWidth />
