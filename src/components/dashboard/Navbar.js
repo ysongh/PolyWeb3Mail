@@ -4,7 +4,7 @@ import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 
 const drawerWidth = 200;
 
-function Navbar({ tableName }) {
+function Navbar({ tableName, walletAddress }) {
   const navigate = useNavigate();
   return (
     <AppBar
@@ -16,7 +16,7 @@ function Navbar({ tableName }) {
           PolyWeb3Mail
         </Typography>
         <div style={{ display: 'flex', alignItems: 'center'}}>
-          <p style={{ marginRight: '.7rem' }}>{tableName}</p>
+          <p style={{ marginRight: '.7rem' }}>{walletAddress}</p>
           <Button variant="contained" color="secondary" onClick={() => navigate('/')}>
             Logout
           </Button>

@@ -24,15 +24,17 @@ function SendMail({ tablelandMethods, tableName, mailCount }) {
         {
           contractAddress: '',
           standardContractType: '',
-          chain: 'ethereum',
-          method: 'eth_getBalance',
-          parameters: [':userAddress', 'latest'],
+          chain,
+          method: '',
+          parameters: [
+            ':userAddress',
+          ],
           returnValueTest: {
-            comparator: '>=',
-            value: '0',  // 0 ETH, so anyone can open
-          },
-        },
-      ];
+            comparator: '=',
+            value: to
+          }
+        }
+      ]
       const userData = JSON.stringify({ subject, text });
 
       // 1. Encryption

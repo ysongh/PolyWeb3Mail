@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Container, Card, CardContent, Button } from '@mui/material';
 import { connect } from "@tableland/sdk";
 
-function Home({ setTablelandMethods, setTableName }) {
+function Home({ setTablelandMethods, setTableName, setWalletAddress }) {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -11,13 +11,14 @@ function Home({ setTablelandMethods, setTableName }) {
   const connectToTableLand = async () => {
     try{
       setLoading(true);
-      const tableland = await connect({ chain: 'optimism-kovan' })
+      const tableland = await connect({ chain: 'optimism-kovan' });
       setTablelandMethods(tableland);
 
       const tables = await tableland.list();
       console.log(tables);
       if(tables.length){
         setTableName(tables[0].name);
+        setWalletAddress(tables[0].controller);
       }
       else {
         const { name } = await tableland.create(

@@ -7,7 +7,7 @@ import Sidebar from '../components/dashboard/Sidebar';
 import Mail from '../components/dashboard/Mail';
 import Send from '../components/dashboard/Send';
 
-function Dashboard({ tablelandMethods, tableName }) {
+function Dashboard({ tablelandMethods, tableName, walletAddress }) {
   const [currentSection, setCurrentSection] = useState("All Mail");
   const [mailCount, setMailCount] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ function Dashboard({ tablelandMethods, tableName }) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <Navbar tableName={tableName} />
+      <Navbar tableName={tableName} walletAddress={walletAddress} />
       <Sidebar setCurrentSection={setCurrentSection} />
       <Box
         component="main"
@@ -44,7 +44,8 @@ function Dashboard({ tablelandMethods, tableName }) {
           && <Mail
             tablelandMethods={tablelandMethods}
             tableName={tableName}
-            setMailCount={setMailCount} /> }
+            setMailCount={setMailCount}
+            walletAddress={walletAddress} /> }
         {currentSection === "Message"
           && <p>Message</p> }
         {currentSection === "Send"

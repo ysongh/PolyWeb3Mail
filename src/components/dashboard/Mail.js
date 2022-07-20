@@ -6,7 +6,7 @@ import LitJsSdk from 'lit-js-sdk';
 import SkeletonPlaceholder from '../common/SkeletonPlaceholder';
 import { dataURItoBlob } from '../../helpers/convertMethods';
 
-function Mail({ tablelandMethods, tableName, setMailCount }) {
+function Mail({ tablelandMethods, tableName, setMailCount, walletAddress }) {
   const [mails, setMails] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -41,6 +41,7 @@ function Mail({ tablelandMethods, tableName, setMailCount }) {
   }
 
   const messageToDecrypt = async (cid) => {
+    console.warn(cid);
     try{
       const chain = 'ethereum';
       const authSig = await LitJsSdk.checkAndSignAuthMessage({chain});
@@ -48,15 +49,17 @@ function Mail({ tablelandMethods, tableName, setMailCount }) {
         {
           contractAddress: '',
           standardContractType: '',
-          chain: 'ethereum',
-          method: 'eth_getBalance',
-          parameters: [':userAddress', 'latest'],
+          chain,
+          method: '',
+          parameters: [
+            ':userAddress',
+          ],
           returnValueTest: {
-            comparator: '>=',
-            value: '0',  // 0 ETH, so anyone can open
-          },
-        },
-      ];
+            comparator: '=',
+            value: walletAddress
+          }
+        }
+      ]
 
       let data = await fetch(`https://${cid}.ipfs.dweb.link/metadata.json`);
       data = await data.json();

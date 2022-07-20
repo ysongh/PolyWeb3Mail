@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 
 function App() {
+  const [walletAddress, setWalletAddress] = useState("");
   const [tablelandMethods, setTablelandMethods] = useState("");
   const [tableName, setTableName] = useState("");
 
@@ -21,13 +22,15 @@ function App() {
           element={
             <Dashboard
               tableName={tableName}
-              tablelandMethods={tablelandMethods} /> } />
+              tablelandMethods={tablelandMethods}
+              walletAddress={walletAddress} /> } />
         <Route
           path="/"
           element={
             <Home
               setTablelandMethods={setTablelandMethods}
-              setTableName={setTableName} /> } />
+              setTableName={setTableName} 
+              setWalletAddress={setWalletAddress} /> } />
       </Routes>
     </HashRouter>
   );
