@@ -66,7 +66,7 @@ function SendMail({ tablelandMethods, tableName, mailCount }) {
 
       const cid = await client.storeDirectory([prepareToUpload]);
       console.log(cid);
-      const writeRes = await tablelandMethods.write(`INSERT INTO ${tableName} (id, name) VALUES ('${mailCount + 1}', '${cid}');`);
+      const writeRes = await tablelandMethods.write(`INSERT INTO ${tableName} (id, body, recipient) VALUES ('${mailCount + 1}', '${cid}', '${to}');`);
       console.log(writeRes);
       setLoading(false);
     } catch(error) {

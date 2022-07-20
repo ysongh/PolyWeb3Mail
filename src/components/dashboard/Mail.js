@@ -13,16 +13,16 @@ function Mail({ tablelandMethods, tableName, setMailCount }) {
 
   const loadMails = async () => {
     const readRes = await tablelandMethods.read(`SELECT * FROM ${tableName};`);
-    console.log(readRes);
+    console.warn(readRes);
 
     const entries = resultsToObjects(readRes);
     let temp = [];
 
-    for (const { name, id } of entries) {
-      console.log(`${name}: ${id}`);
-      const strData = await messageToDecrypt(name);
+    for (const { recipient, body, id } of entries) {
+      console.log(`${body}: ${id}`);
+      const strData = await messageToDecrypt(body);
       const toObject = await JSON.parse(strData);
-      temp.push({ id, data: toObject});
+      temp.push({ id, data: toObject, recipient});
     }
 
     setMails(temp);
@@ -81,6 +81,7 @@ function Mail({ tablelandMethods, tableName, setMailCount }) {
     <div>
       {mails.map(m => (
         <div key={m.id}>
+          <p>{m.recipient}</p>
           <p>{m.data.subject}</p>
           <p>{m.data.text}</p>
         </div>
