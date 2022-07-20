@@ -2,31 +2,41 @@ import React, { useEffect, useState } from 'react';
 import { resultsToObjects } from "@tableland/sdk";
 import LitJsSdk from 'lit-js-sdk';
 
+import SkeletonPlaceholder from '../common/SkeletonPlaceholder';
 import { dataURItoBlob } from '../../helpers/convertMethods';
 
 function Mail({ tablelandMethods, tableName, setMailCount }) {
   const [mails, setMails] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     loadMails();
   }, [])
 
   const loadMails = async () => {
-    const readRes = await tablelandMethods.read(`SELECT * FROM ${tableName};`);
-    console.warn(readRes);
+    try{
+      setLoading(true);
+      const readRes = await tablelandMethods.read(`SELECT * FROM ${tableName};`);
+      console.warn(readRes);
 
-    const entries = resultsToObjects(readRes);
-    let temp = [];
+      const entries = resultsToObjects(readRes);
+      let temp = [];
 
-    for (const { recipient, body, id } of entries) {
-      console.log(`${body}: ${id}`);
-      const strData = await messageToDecrypt(body);
-      const toObject = await JSON.parse(strData);
-      temp.push({ id, data: toObject, recipient});
+      for (const { recipient, body, id } of entries) {
+        console.log(`${body}: ${id}`);
+        const strData = await messageToDecrypt(body);
+        const toObject = await JSON.parse(strData);
+        temp.push({ id, data: toObject, recipient});
+      }
+
+      setMails(temp);
+      setMailCount(temp.length);
+      setLoading(false);
+    } catch(error) {
+      console.error(error);
+      setLoading(false);
     }
-
-    setMails(temp);
-    setMailCount(temp.length);
+    
   }
 
   const messageToDecrypt = async (cid) => {
@@ -74,18 +84,20 @@ function Mail({ tablelandMethods, tableName, setMailCount }) {
       return decryptedString;
     } catch (error) {
       console.error(error);
+      setLoading(false);
     } 
   }
 
   return (
     <div>
-      {mails.map(m => (
-        <div key={m.id}>
-          <p>{m.recipient}</p>
-          <p>{m.data.subject}</p>
-          <p>{m.data.text}</p>
-        </div>
-       
+      {loading
+        ? <SkeletonPlaceholder />
+        : mails.map(m => (
+            <div key={m.id}>
+              <p>{m.recipient}</p>
+              <p>{m.data.subject}</p>
+              <p>{m.data.text}</p>
+            </div>
       ))}
     </div>
   )
