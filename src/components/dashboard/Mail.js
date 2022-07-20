@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Paper } from '@mui/material';
 import { resultsToObjects } from "@tableland/sdk";
 import LitJsSdk from 'lit-js-sdk';
 
@@ -93,11 +94,10 @@ function Mail({ tablelandMethods, tableName, setMailCount }) {
       {loading
         ? <SkeletonPlaceholder />
         : mails.map(m => (
-            <div key={m.id}>
-              <p>{m.recipient}</p>
+            <Paper key={m.id} style={{ display: 'flex', padding: '0 1rem', marginBottom: '1rem'}}>
+              <p style={{ color: 'grey', marginRight: '.5rem' }}>{m.recipient} - </p>
               <p>{m.data.subject}</p>
-              <p>{m.data.text}</p>
-            </div>
+            </Paper>
       ))}
     </div>
   )
