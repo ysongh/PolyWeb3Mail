@@ -9,6 +9,7 @@ function App() {
   const [walletAddress, setWalletAddress] = useState("");
   const [tablelandMethods, setTablelandMethods] = useState("");
   const [tableName, setTableName] = useState("");
+  const [pw3eContract, setpw3eContract] = useState(null);
 
   return (
     <HashRouter>
@@ -30,7 +31,8 @@ function App() {
             <Home
               setTablelandMethods={setTablelandMethods}
               setTableName={setTableName} 
-              setWalletAddress={setWalletAddress} /> } />
+              setWalletAddress={setWalletAddress}
+              setpw3eContract={setpw3eContract} /> } />
       </Routes>
     </HashRouter>
   );

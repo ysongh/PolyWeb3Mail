@@ -2,27 +2,48 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { Container, Card, CardContent, Button } from '@mui/material';
 import { connect } from "@tableland/sdk";
+import { ethers } from 'ethers';
+import Web3Modal from 'web3modal';
 
-function Home({ setTablelandMethods, setTableName, setWalletAddress }) {
+import PolyWeb3Mail from '../artifacts/contracts/PolyWeb3Mail.sol/PolyWeb3Mail.json';
+
+const POLYWEB3MAIL_ADDRESS = "0xE5e63Dc57561A8eB0C7AeB4F96331f311E8C3FA7";
+
+function Home({ setTablelandMethods, setTableName, setWalletAddress, setpw3eContract }) {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
 
+  const connectWallet = async () => {
+    const web3Modal = new Web3Modal();
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);  
+    console.log(provider);
+
+    const signer = provider.getSigner();
+    const address = await signer.getAddress();
+    setWalletAddress(address);
+
+    let contract = new ethers.Contract(POLYWEB3MAIL_ADDRESS, PolyWeb3Mail.abi, signer);
+    setpw3eContract(contract);
+
+    connectToTableLand();
+  }
+
   const connectToTableLand = async () => {
     try{
       setLoading(true);
-      const tableland = await connect({ chain: 'optimism-kovan' });
+      const tableland = await connect({ chain: 'polygon-mumbai' });
       setTablelandMethods(tableland);
 
       const tables = await tableland.list();
       console.log(tables);
       if(tables.length){
         setTableName(tables[0].name);
-        setWalletAddress(tables[0].controller);
       }
       else {
         const { name } = await tableland.create(
-          `body text, recipient text, id int, primary key (id)`, // Table schema definition
+          `body text, recipient text, dateSent text, isCopy text, id int, primary key (id)`, // Table schema definition
           `myEmail` // Optional `prefix` used to define a human-readable string
         );
     
@@ -46,7 +67,7 @@ function Home({ setTablelandMethods, setTableName, setWalletAddress }) {
 
           {loading
             ? <p>Loading...</p>
-            : <Button variant="contained" onClick={connectToTableLand}>
+            : <Button variant="contained" onClick={connectWallet}>
                 Connect Wallet
               </Button>
           }
