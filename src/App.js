@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HashRouter, Route, Routes, Link } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 
 import TableLand from './components/TableLand';
 import Home from './pages/Home';
