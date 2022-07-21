@@ -7,8 +7,9 @@ import Sidebar from '../components/dashboard/Sidebar';
 import Mail from '../components/dashboard/Mail';
 import Send from '../components/dashboard/Send';
 import MailDetail from '../components/dashboard/MailDetail';
+import MySendMail from '../components/dashboard/MySendMail';
 
-function Dashboard({ tablelandMethods, tableName, walletAddress }) {
+function Dashboard({ tablelandMethods, tableName, walletAddress, pw3eContract }) {
   const [currentSection, setCurrentSection] = useState("All Mail");
   const [mailCount, setMailCount] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -56,11 +57,17 @@ function Dashboard({ tablelandMethods, tableName, walletAddress }) {
           && <Send
             tablelandMethods={tablelandMethods}
             tableName={tableName}
-            mailCount={mailCount} /> }
+            mailCount={mailCount}
+            pw3eContract={pw3eContract}
+            walletAddress={walletAddress} /> }
         {currentSection === "Mail Detail"
           && <MailDetail
             currentMail={currentMail}
             setCurrentSection={setCurrentSection} /> }
+        {currentSection === "My Send Mail"
+          && <MySendMail
+            tablelandMethods={tablelandMethods}
+            tableName={tableName} /> }
       </Box>
     </Box>
   )
