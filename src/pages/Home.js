@@ -27,10 +27,10 @@ function Home({ setTablelandMethods, setTableName, setWalletAddress, setpw3eCont
     let contract = new ethers.Contract(POLYWEB3MAIL_ADDRESS, PolyWeb3Mail.abi, signer);
     setpw3eContract(contract);
 
-    connectToTableLand();
+    connectToTableLand(contract);
   }
 
-  const connectToTableLand = async () => {
+  const connectToTableLand = async (contract) => {
     try{
       setLoading(true);
       const tableland = await connect({ chain: 'polygon-mumbai' });
@@ -49,6 +49,9 @@ function Home({ setTablelandMethods, setTableName, setWalletAddress, setpw3eCont
     
         console.log(name);
         setTableName(name);
+        const transaction = await contract.setTablename(name);
+        const tx = await transaction.wait();
+        console.log(tx);
       }
       setLoading(false);
       navigate('./dashboard');

@@ -24,7 +24,8 @@ function App() {
             <Dashboard
               tableName={tableName}
               tablelandMethods={tablelandMethods}
-              walletAddress={walletAddress} /> } />
+              walletAddress={walletAddress}
+              pw3eContract={pw3eContract} /> } />
         <Route
           path="/"
           element={
