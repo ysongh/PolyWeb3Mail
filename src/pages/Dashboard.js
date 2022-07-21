@@ -6,11 +6,13 @@ import Navbar from '../components/dashboard/Navbar';
 import Sidebar from '../components/dashboard/Sidebar';
 import Mail from '../components/dashboard/Mail';
 import Send from '../components/dashboard/Send';
+import MailDetail from '../components/dashboard/MailDetail';
 
 function Dashboard({ tablelandMethods, tableName, walletAddress }) {
   const [currentSection, setCurrentSection] = useState("All Mail");
   const [mailCount, setMailCount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [currentMail, setCurrentMail] = useState({});
 
   useEffect(() => {
     connectToLitNetwork();
@@ -45,7 +47,9 @@ function Dashboard({ tablelandMethods, tableName, walletAddress }) {
             tablelandMethods={tablelandMethods}
             tableName={tableName}
             setMailCount={setMailCount}
-            walletAddress={walletAddress} /> }
+            walletAddress={walletAddress}
+            setCurrentSection={setCurrentSection}
+            setCurrentMail={setCurrentMail} /> }
         {currentSection === "Message"
           && <p>Message</p> }
         {currentSection === "Send"
@@ -53,6 +57,10 @@ function Dashboard({ tablelandMethods, tableName, walletAddress }) {
             tablelandMethods={tablelandMethods}
             tableName={tableName}
             mailCount={mailCount} /> }
+        {currentSection === "Mail Detail"
+          && <MailDetail
+            currentMail={currentMail}
+            setCurrentSection={setCurrentSection} /> }
       </Box>
     </Box>
   )
