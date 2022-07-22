@@ -10,6 +10,7 @@ function App() {
   const [tablelandMethods, setTablelandMethods] = useState("");
   const [tableName, setTableName] = useState("");
   const [pw3eContract, setpw3eContract] = useState(null);
+  const [domainData, setDomainData] = useState('');
 
   return (
     <HashRouter>
@@ -25,7 +26,9 @@ function App() {
               tableName={tableName}
               tablelandMethods={tablelandMethods}
               walletAddress={walletAddress}
-              pw3eContract={pw3eContract} /> } />
+              pw3eContract={pw3eContract}
+              domainData={domainData}
+              setDomainData={setDomainData} /> } />
         <Route
           path="/"
           element={
@@ -33,7 +36,8 @@ function App() {
               setTablelandMethods={setTablelandMethods}
               setTableName={setTableName} 
               setWalletAddress={setWalletAddress}
-              setpw3eContract={setpw3eContract} /> } />
+              setpw3eContract={setpw3eContract}
+              setDomainData={setDomainData} /> } />
       </Routes>
     </HashRouter>
   );

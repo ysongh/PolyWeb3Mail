@@ -11,7 +11,7 @@ import Setting from '../components/dashboard/Setting';
 
 import CloseIcon from '@mui/icons-material/Close';
 
-function Dashboard({ tablelandMethods, tableName, walletAddress, pw3eContract }) {
+function Dashboard({ tablelandMethods, tableName, walletAddress, pw3eContract, domainData, setDomainData }) {
   const [currentSection, setCurrentSection] = useState("All Mail");
   const [mailCount, setMailCount] = useState(0);
   const [currentMail, setCurrentMail] = useState({});
@@ -28,7 +28,11 @@ function Dashboard({ tablelandMethods, tableName, walletAddress, pw3eContract })
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <Navbar tableName={tableName} walletAddress={walletAddress} />
+      <Navbar
+        tableName={tableName}
+        walletAddress={walletAddress}
+        domainData={domainData}
+        setDomainData={setDomainData} />
       <Sidebar setCurrentSection={setCurrentSection} />
       <Box
         component="main"

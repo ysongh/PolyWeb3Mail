@@ -1,19 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { Container, Card, CardContent, Button } from '@mui/material';
 import { connect } from "@tableland/sdk";
 import { ethers } from 'ethers';
 import Web3Modal from 'web3modal';
 import LitJsSdk from 'lit-js-sdk';
+import UAuth from '@uauth/js';
+import { UNSTOPPABLEDOMAINS_CLIENTID, UNSTOPPABLEDOMAINS_REDIRECT_URI } from '../config';
 
 import PolyWeb3Mail from '../artifacts/contracts/PolyWeb3Mail.sol/PolyWeb3Mail.json';
 
 const POLYWEB3MAIL_ADDRESS = "0xE5e63Dc57561A8eB0C7AeB4F96331f311E8C3FA7";
 
-function Home({ setTablelandMethods, setTableName, setWalletAddress, setpw3eContract }) {
+const uauth = new UAuth({
+  clientID: UNSTOPPABLEDOMAINS_CLIENTID,
+  redirectUri: UNSTOPPABLEDOMAINS_REDIRECT_URI,
+});
+
+function Home({ setTablelandMethods, setTableName, setWalletAddress, setpw3eContract, setDomainData }) {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    uauth
+      .user()
+      .then(userData => {
+        console.log(userData);
+        setDomainData(userData);
+        navigate('./dashboard');
+      })
+      .catch(error => {
+        console.error('profile error:', error);
+      })
+  }, [])
 
   const connectWallet = async () => {
     const web3Modal = new Web3Modal();
@@ -29,6 +49,21 @@ function Home({ setTablelandMethods, setTableName, setWalletAddress, setpw3eCont
     setpw3eContract(contract);
 
     connectToTableLand(contract);
+  }
+
+  const loginWithUnstoppableDomains = async () => {
+    try {
+      setLoading(true);
+      const authorization = await uauth.loginWithPopup();
+      authorization.sub = authorization.idToken.sub;
+      console.log(authorization);
+
+      setDomainData(authorization);
+      connectWallet();
+    } catch (error) {
+      setLoading(false);
+      console.error(error);
+    }
   }
 
   const connectToTableLand = async (contract) => {
@@ -81,12 +116,19 @@ function Home({ setTablelandMethods, setTableName, setWalletAddress, setpw3eCont
         <CardContent>
           <h1 style={{ marginBottom: '.3rem' }}>Welcome to PolyWeb3Mail</h1>
           <p style={{ marginBottom: '1rem'}}>A decentralized email and message platform</p>
-
+          
           {loading
             ? <p>Loading...</p>
-            : <Button variant="contained" onClick={connectWallet}>
+            : <>
+              <Button variant="contained" onClick={loginWithUnstoppableDomains}>
+                  Connect With Unstoppable Domain
+              </Button>
+              <br />
+              <br />
+              <Button variant="contained" onClick={connectWallet}>
                 Connect Wallet
               </Button>
+            </>
           }
         </CardContent>
       </Card>
