@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Box, Tabs, Tab } from '@mui/material';
 import SendMail from './SendMail';
 import SendNFT from './SendNFT';
+import SendPOAP from './SendPOAP';
 
-function Send({ tablelandMethods, tableName, mailCount, pw3eContract, openSnackbar }) {
+function Send({ tablelandMethods, tableName, mailCount, pw3eContract, openSnackbar, walletAddress }) {
   const [currentSection, setCurrentSection] = useState("Send Mail");
 
   const handleChange = (event, newValue) => {
@@ -16,6 +17,7 @@ function Send({ tablelandMethods, tableName, mailCount, pw3eContract, openSnackb
         <Tabs value={currentSection} onChange={handleChange}>
           <Tab label="Send Mail" value="Send Mail" />
           <Tab label="Send NFT" value="Send NFT" />
+          <Tab label="Send POAP" value="Send POAP" />
         </Tabs>
       </Box>
       <br />
@@ -28,6 +30,12 @@ function Send({ tablelandMethods, tableName, mailCount, pw3eContract, openSnackb
           openSnackbar={openSnackbar} /> }
       {currentSection === "Send NFT"
         && <SendNFT /> }
+      {currentSection === "Send POAP"
+        && <SendPOAP
+          tablelandMethods={tablelandMethods}
+          tableName={tableName}
+          walletAddress={walletAddress}
+          openSnackbar={openSnackbar} /> }
     </Box>
   )
 }
