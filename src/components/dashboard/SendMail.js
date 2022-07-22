@@ -8,7 +8,7 @@ import { blobToDataURI } from '../../helpers/convertMethods';
 
 const client = new NFTStorage({ token: NFT_STORAGE_APIKEY });
 
-function SendMail({ tablelandMethods, tableName, mailCount }) {
+function SendMail({ tablelandMethods, tableName, mailCount, openSnackbar }) {
   const [to, setTo] = useState("");
   const [subject, setSubject] = useState(false);
   const [text, setText] = useState(false);
@@ -83,6 +83,7 @@ function SendMail({ tablelandMethods, tableName, mailCount }) {
       const writeRes = await tablelandMethods.write(`INSERT INTO ${tables[0].name} (id, body, recipient, dateSent, isCopy) VALUES ('${toCount.rows.length + 1}', '${cid}', '${to}', '${dateNow}', 'no');`);
       await tablelandMethods.write(`INSERT INTO ${tableName} (id, body, recipient, dateSent, isCopy) VALUES ('${seflCount.rows.length + 1}', '${cid}', '${to}', '${dateNow}', 'yes');`);
       console.log(writeRes);
+      openSnackbar();
       setLoading(false);
     } catch(error) {
       console.error(error);

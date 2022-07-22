@@ -3,7 +3,7 @@ import { Box, Tabs, Tab } from '@mui/material';
 import SendMail from './SendMail';
 import SendNFT from './SendNFT';
 
-function Send({ tablelandMethods, tableName, mailCount, pw3eContract }) {
+function Send({ tablelandMethods, tableName, mailCount, pw3eContract, openSnackbar }) {
   const [currentSection, setCurrentSection] = useState("Send Mail");
 
   const handleChange = (event, newValue) => {
@@ -24,7 +24,8 @@ function Send({ tablelandMethods, tableName, mailCount, pw3eContract }) {
           tablelandMethods={tablelandMethods}
           tableName={tableName}
           mailCount={mailCount}
-          pw3eContract={pw3eContract} /> }
+          pw3eContract={pw3eContract}
+          openSnackbar={openSnackbar} /> }
       {currentSection === "Send NFT"
         && <SendNFT /> }
     </Box>

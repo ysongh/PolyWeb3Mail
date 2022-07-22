@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@mui/material';
 
-function Setting({ tablelandMethods, tableName }) {
+function Setting({ tablelandMethods, tableName, openSnackbar }) {
   const [toAddress, setToAddress] = useState("");
 
   const grantWriteAccesssTable = async () => {
     const res = await tablelandMethods.write(`GRANT INSERT ON ${tableName} TO '${toAddress}'`);
     console.log(res);
+    openSnackbar();
   }
 
   return (
