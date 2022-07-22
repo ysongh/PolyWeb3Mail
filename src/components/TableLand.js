@@ -14,9 +14,10 @@ function TableLand() {
   const [text, setText] = useState("");
   const [content, setContent] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [writeAddress, setWriteAddress] = useState("");
 
   useEffect(() => {
-    connectTpLitNetwork();
+    //connectTpLitNetwork();
   }, [])
 
   const connectTpLitNetwork = async () => {
@@ -69,8 +70,8 @@ function TableLand() {
     let temp = [];
     for (const { name, id } of entries) {
       console.log(`${name}: ${id}`);
-      const text = await messageToDecrypt(name);
-      temp.push({ id, name: text});
+      //const text = await messageToDecrypt(name);
+      temp.push({ id, name: name});
     }
 
     setContent(temp);
@@ -80,7 +81,7 @@ function TableLand() {
     console.log(tableName)
     // Insert a row into the table
     // @return {WriteQueryResult} On-chain transaction hash of the write query
-    const writeRes = await tablelandMethods.write(`INSERT INTO ${tableName} (id, name) VALUES ('${content.length + 1}', '${cid}');`);
+    const writeRes = await tablelandMethods.write(`INSERT INTO ${tableName} (id, name) VALUES ('${6}', '${text}');`);
     console.log(writeRes);
   }
 
@@ -218,6 +219,11 @@ function TableLand() {
     console.log(removeRes)
   }
 
+  const grantWriteAccesssTable = async () => {
+    const res = await tablelandMethods.write(`GRANT INSERT ON ${tableName} TO '${writeAddress}'`);
+    console.log(res);
+  }
+
   const checkForTableNameByAddress = async () => {
     const res = await fetch(`${tablelandMethods.options.host}/chain/${tablelandMethods.options.chainId}/tables/controller/${tablelandMethods.options.controller}`).then(
       (r) => r.json()
@@ -235,8 +241,13 @@ function TableLand() {
       <button onClick={createTable}>
         Create
       </button>
-      <h1>{tableName}</h1>
+      <br />
+      <input placeholder='' value={tableName} onChange={(e) => setTableName(e.target.value)}/>
+      <br />
       <input placeholder='text' onChange={(e) => setText(e.target.value)}/>
+      <button onClick={insertDataToTable}>
+        Add
+      </button>
       <button onClick={messageToEncrypt}>
         Encrypt and Add
       </button>
@@ -249,7 +260,11 @@ function TableLand() {
         </div>
         
       ))}
-      
+      <br />
+      <input placeholder='text' onChange={(e) => setWriteAddress(e.target.value)}/>
+      <button onClick={grantWriteAccesssTable}>
+        Grant Write
+      </button>
     </div>
   )
 }
