@@ -17,6 +17,17 @@ function SendMail({ tablelandMethods, tableName, mailCount }) {
   const sendMail = async () => {
     try{
       setLoading(true);
+      const tables = await fetch(`${tablelandMethods.options.host}/chain/${tablelandMethods.options.chainId}/tables/controller/${to}`).then(
+        (r) => r.json()
+      )
+      console.log(tables[0].name);
+
+      const toCount = await tablelandMethods.read(`SELECT * FROM ${tables[0].name} WHERE isCopy='no';`);
+      console.warn(toCount);
+
+      const seflCount = await tablelandMethods.read(`SELECT * FROM ${tableName} WHERE isCopy='yes';`);
+      console.warn(seflCount);
+
       console.log(to, subject, text);
       const chain = 'ethereum';
       const authSig = await LitJsSdk.checkAndSignAuthMessage({chain});
@@ -68,7 +79,9 @@ function SendMail({ tablelandMethods, tableName, mailCount }) {
 
       const cid = await client.storeDirectory([prepareToUpload]);
       console.log(cid);
-      const writeRes = await tablelandMethods.write(`INSERT INTO ${tableName} (id, body, recipient) VALUES ('${mailCount + 1}', '${cid}', '${to}');`);
+      const dateNow = `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
+      const writeRes = await tablelandMethods.write(`INSERT INTO ${tables[0].name} (id, body, recipient, dateSent, isCopy) VALUES ('${toCount.rows.length + 1}', '${cid}', '${to}', '${dateNow}', 'no');`);
+      await tablelandMethods.write(`INSERT INTO ${tableName} (id, body, recipient, dateSent, isCopy) VALUES ('${seflCount.rows.length + 1}', '${cid}', '${to}', '${dateNow}', 'yes');`);
       console.log(writeRes);
       setLoading(false);
     } catch(error) {
