@@ -4,6 +4,7 @@ import { Box, Drawer, CssBaseline, AppBar, Toolbar, List, Typography, Divider, L
 import EmailIcon from '@mui/icons-material/Email';
 import MessageIcon from '@mui/icons-material/Message';
 import SendIcon from '@mui/icons-material/Send';
+import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 
 const drawerLinks = [
   {
@@ -21,6 +22,10 @@ const drawerLinks = [
   {
     "text": "Send",
     "icon": <SendIcon />
+  },
+  {
+    "text": "Setting",
+    "icon": <SettingsSuggestIcon />
   },
 ];
 const drawerWidth = 200;

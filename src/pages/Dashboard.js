@@ -7,6 +7,7 @@ import Mail from '../components/dashboard/Mail';
 import Send from '../components/dashboard/Send';
 import MailDetail from '../components/dashboard/MailDetail';
 import MySendMail from '../components/dashboard/MySendMail';
+import Setting from '../components/dashboard/Setting';
 
 function Dashboard({ tablelandMethods, tableName, walletAddress, pw3eContract }) {
   const [currentSection, setCurrentSection] = useState("All Mail");
@@ -46,6 +47,10 @@ function Dashboard({ tablelandMethods, tableName, walletAddress, pw3eContract })
             setCurrentSection={setCurrentSection} /> }
         {currentSection === "My Send Mail"
           && <MySendMail
+            tablelandMethods={tablelandMethods}
+            tableName={tableName} /> }
+        {currentSection === "Setting"
+          && <Setting
             tablelandMethods={tablelandMethods}
             tableName={tableName} /> }
       </Box>
