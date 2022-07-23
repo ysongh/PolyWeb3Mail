@@ -23,6 +23,7 @@ function Navbar({ tableName, walletAddress, domainData, setDomainData }) {
     
     navigate('/');
   }
+  console.log(domainData, walletAddress)
 
   return (
     <AppBar
@@ -32,11 +33,10 @@ function Navbar({ tableName, walletAddress, domainData, setDomainData }) {
       sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
     >
       <Toolbar style={{ display: 'flex', justifyContent: 'space-between'}}>
-        <Typography variant="h6" noWrap component="div">
-          PolyWeb3Mail
+        <Typography variant="p" noWrap component="div">
+          {domainData.sub.length || walletAddress}
         </Typography>
         <div style={{ display: 'flex', alignItems: 'center'}}>
-          <p style={{ marginRight: '.7rem' }}>{domainData?.sub || walletAddress}</p>
           <Button variant="contained" color="secondary" onClick={logout}>
             Logout
           </Button>

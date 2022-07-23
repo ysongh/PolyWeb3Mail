@@ -44,7 +44,9 @@ function Sidebar({ setCurrentSection }) {
       variant="permanent"
       anchor="left"
     >
-      <Toolbar className="primary-bg-color-100" />
+      <Toolbar className="primary-bg-color-100">
+        <img src="./logo.png" alt="logo" style={{ width: '150px' }} />
+      </Toolbar>
       <Divider />
       <List className="primary-bg-color-100"  style={{ height: "100vh"}}>
         {drawerLinks.map((d, index) => (
