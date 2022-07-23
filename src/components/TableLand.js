@@ -36,7 +36,7 @@ function TableLand() {
   const connectToTableLand = async () => {
     // Connect to the Tableland testnet (defaults to Goerli testnet)
     // @return {Connection} Interface to access the Tableland network and target chain
-    const tableland = await connect({ chain: 'ethereum-goerli' })
+    const tableland = await connect({ chain: 'polygon-mumbai' })
     console.log(tableland);
     setTablelandMethods(tableland);
 
@@ -75,6 +75,12 @@ function TableLand() {
     }
 
     setContent(temp);
+  }
+
+  const readDataFromTable = async () => {
+    const readRes = await tablelandMethods.read(`SELECT * FROM ${tableName};`);
+    console.log(readRes);
+    formatData(readRes);
   }
 
   const insertDataToTable = async (cid) => {
@@ -243,6 +249,9 @@ function TableLand() {
       </button>
       <br />
       <input placeholder='' value={tableName} onChange={(e) => setTableName(e.target.value)}/>
+      <button onClick={readDataFromTable}>
+        Read
+      </button>
       <br />
       <input placeholder='text' onChange={(e) => setText(e.target.value)}/>
       <button onClick={insertDataToTable}>
