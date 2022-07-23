@@ -35,8 +35,10 @@ function Dashboard({ tablelandMethods, tableName, walletAddress, pw3eContract, d
         setDomainData={setDomainData} />
       <Sidebar setCurrentSection={setCurrentSection} />
       <Box
+        className="primary-bg-color-200"
         component="main"
         sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+        style={{ height: "100vh"}}
       >
         <Toolbar />
         {currentSection === "All Mail"

@@ -113,7 +113,7 @@ function SendPOAP({ tablelandMethods, openSnackbar, walletAddress }) {
         </Grid>
       </Grid>
       <br />
-      <Button variant="contained" color="primary" size="large" onClick={checkPOAP}>
+      <Button variant="contained" color="secondary"  size="large" onClick={checkPOAP}>
         Check POAP
       </Button>
       <br />
@@ -126,7 +126,7 @@ function SendPOAP({ tablelandMethods, openSnackbar, walletAddress }) {
         <br />
         <br />
         {!loading
-          ? <Button variant="contained" color="primary" size="large" onClick={sendPOAP}>
+          ? <Button variant="contained" color="secondary"  size="large" onClick={sendPOAP}>
               Send POAP
             </Button>
           : <p>Loading...</p>

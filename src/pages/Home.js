@@ -111,28 +111,30 @@ function Home({ setTablelandMethods, setTableName, setWalletAddress, setpw3eCont
   }
 
   return (
-    <Container maxWidth="sm" style={{ display: 'flex', flexDirection: 'column'}}>
-      <Card style={{ marginTop: '10rem'}}>
-        <CardContent>
-          <h1 style={{ marginBottom: '.3rem' }}>Welcome to PolyWeb3Mail</h1>
-          <p style={{ marginBottom: '1rem'}}>A decentralized email and message platform</p>
-          
-          {loading
-            ? <p>Loading...</p>
-            : <>
-              <Button variant="contained" onClick={loginWithUnstoppableDomains}>
-                  Connect With Unstoppable Domain
-              </Button>
-              <br />
-              <br />
-              <Button variant="contained" onClick={connectWallet}>
-                Connect Wallet
-              </Button>
-            </>
-          }
-        </CardContent>
-      </Card>
-    </Container>
+    <div className="primary-bg-color-200" style={{ height: "100vh"}}>
+      <Container maxWidth="sm" style={{ display: 'flex', flexDirection: 'column'}}>
+        <Card style={{ marginTop: '10rem'}}>
+          <CardContent>
+            <h1 style={{ marginBottom: '.3rem' }}>Welcome to PolyWeb3Mail</h1>
+            <p style={{ marginBottom: '1rem'}}>A decentralized email and message platform</p>
+
+            {loading
+              ? <p>Loading...</p>
+              : <>
+                <Button variant="contained" color="secondary" onClick={loginWithUnstoppableDomains}>
+                    Connect With Unstoppable Domain
+                </Button>
+                <br />
+                <br />
+                <Button variant="contained" color="secondary" onClick={connectWallet}>
+                  Connect Wallet
+                </Button>
+              </>
+            }
+          </CardContent>
+        </Card>
+      </Container>
+    </div>
   )
 }
 

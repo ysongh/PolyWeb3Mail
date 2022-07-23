@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Tabs, Tab } from '@mui/material';
+import { Paper, Box, Tabs, Tab } from '@mui/material';
 import SendMail from './SendMail';
 import SendNFT from './SendNFT';
 import SendPOAP from './SendPOAP';
@@ -12,7 +12,7 @@ function Send({ tablelandMethods, tableName, mailCount, pw3eContract, openSnackb
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Paper sx={{ width: '100%' }} style={{ padding: "1rem" }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={currentSection} onChange={handleChange}>
           <Tab label="Send Mail" value="Send Mail" />
@@ -36,7 +36,7 @@ function Send({ tablelandMethods, tableName, mailCount, pw3eContract, openSnackb
           tableName={tableName}
           walletAddress={walletAddress}
           openSnackbar={openSnackbar} /> }
-    </Box>
+    </Paper>
   )
 }
 

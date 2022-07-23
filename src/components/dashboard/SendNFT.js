@@ -62,7 +62,7 @@ function SendNFT() {
       <br />
       <br />
       {!loading
-        ? <Button variant="contained" color="primary" size="large" onClick={sendNFT}>
+        ? <Button variant="contained" color="secondary" size="large" onClick={sendNFT}>
             Send NFT
           </Button>
         : <p>Loading...</p>

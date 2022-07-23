@@ -26,7 +26,9 @@ function Navbar({ tableName, walletAddress, domainData, setDomainData }) {
 
   return (
     <AppBar
+      className="primary-bg-color-300"
       position="fixed"
+      color="transparent"
       sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
     >
       <Toolbar style={{ display: 'flex', justifyContent: 'space-between'}}>

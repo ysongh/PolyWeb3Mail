@@ -1,10 +1,10 @@
 import React from 'react';
-import { IconButton } from '@mui/material';
+import { Paper, IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function MailDetail({ currentMail, setCurrentSection }) {
   return (
-    <div>
+    <Paper style={{ padding: "1rem" }}>
       <div style={{ display: 'flex', justifyContent: "space-between"}}>
         <IconButton size="large" color="primary" onClick={() => setCurrentSection("All Mail")}>
           <ArrowBackIcon fontSize="inherit" />
@@ -13,7 +13,7 @@ function MailDetail({ currentMail, setCurrentSection }) {
       </div>
       <h1 style={{ marginTop: "0"}}>{currentMail.data.subject}</h1>
       <p>{currentMail.data.text}</p>
-    </div>
+    </Paper>
   )
 }
 

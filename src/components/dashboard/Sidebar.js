@@ -44,9 +44,9 @@ function Sidebar({ setCurrentSection }) {
       variant="permanent"
       anchor="left"
     >
-      <Toolbar />
+      <Toolbar className="primary-bg-color-100" />
       <Divider />
-      <List>
+      <List className="primary-bg-color-100"  style={{ height: "100vh"}}>
         {drawerLinks.map((d, index) => (
           <ListItem key={index} disablePadding>
             <ListItemButton>
