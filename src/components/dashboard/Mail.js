@@ -5,6 +5,7 @@ import LitJsSdk from 'lit-js-sdk';
 
 import SkeletonPlaceholder from '../common/SkeletonPlaceholder';
 import { dataURItoBlob } from '../../helpers/convertMethods';
+import { formatAddress } from "../../helpers/formatMethods";
 
 function Mail({ tablelandMethods, tableName, setMailCount, walletAddress, setCurrentSection, setCurrentMail }) {
   const [mails, setMails] = useState([]);
@@ -103,7 +104,7 @@ function Mail({ tablelandMethods, tableName, setMailCount, walletAddress, setCur
         ? <SkeletonPlaceholder />
         : mails.map(m => (
             <Paper key={m.id} style={{ display: 'flex', padding: '0 1rem', marginBottom: '1rem', cursor: "pointer" }} onClick={() => selectMail(m)}>
-              <p style={{ color: 'grey', marginRight: '.5rem' }}>{m.recipient} - </p>
+              <p style={{ color: 'grey', marginRight: '.5rem' }}>{formatAddress(m.recipient)} - </p>
               <p>{m.data.subject}</p>
             </Paper>
       ))}

@@ -3,6 +3,7 @@ import { Paper } from '@mui/material';
 import { resultsToObjects } from "@tableland/sdk";
 
 import SkeletonPlaceholder from '../common/SkeletonPlaceholder';
+import { formatAddress } from "../../helpers/formatMethods";
 
 function MySendMail({ tablelandMethods, tableName }) {
   const [mails, setMails] = useState([]);
@@ -40,7 +41,7 @@ function MySendMail({ tablelandMethods, tableName }) {
         ? <SkeletonPlaceholder />
         : mails.map(m => (
             <Paper key={m.id} style={{ display: 'flex', padding: '0 1rem', marginBottom: '1rem', cursor: "pointer" }}>
-              <p style={{ color: 'grey', marginRight: '.5rem' }}>{m.recipient} - </p>
+              <p style={{ color: 'grey', marginRight: '.5rem' }}>{formatAddress(m.recipient)} - </p>
               <p>{m.dateSent}</p>
             </Paper>
       ))}
