@@ -28,7 +28,7 @@ function Home({ setTablelandMethods, setTableName, setWalletAddress, setpw3eCont
       .then(userData => {
         console.log(userData);
         setDomainData(userData);
-        navigate('./dashboard');
+        connectWallet();
       })
       .catch(error => {
         console.error('profile error:', error);

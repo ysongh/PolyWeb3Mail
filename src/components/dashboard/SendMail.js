@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button } from '@mui/material';
 import { NFTStorage, File } from 'nft.storage';
 import LitJsSdk from 'lit-js-sdk';
+import { ethers } from 'ethers';
 
 import { NFT_STORAGE_APIKEY } from '../../config';
 import { blobToDataURI } from '../../helpers/convertMethods';
@@ -22,7 +23,7 @@ function SendMail({ tablelandMethods, tableName, mailCount, openSnackbar }) {
       if(toAddress.includes(".")) {
         const UDdata = await resolveUnstoppableDomainNamesIntoRecords(to);
         if(UDdata.meta.owner){
-          toAddress = UDdata.meta.owner;
+          toAddress = ethers.utils.getAddress(UDdata.meta.owner);
         }
       }
       
@@ -37,7 +38,7 @@ function SendMail({ tablelandMethods, tableName, mailCount, openSnackbar }) {
       const seflCount = await tablelandMethods.read(`SELECT * FROM ${tableName} WHERE isCopy='yes';`);
       console.warn(seflCount);
 
-      console.log(to, subject, text);
+      console.warn(to, subject, text, toAddress);
       const chain = 'ethereum';
       const authSig = await LitJsSdk.checkAndSignAuthMessage({chain});
       const accessControlConditions = [
