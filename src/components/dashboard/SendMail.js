@@ -5,6 +5,7 @@ import LitJsSdk from 'lit-js-sdk';
 
 import { NFT_STORAGE_APIKEY } from '../../config';
 import { blobToDataURI } from '../../helpers/convertMethods';
+import { resolveUnstoppableDomainNamesIntoRecords } from "../../helpers/unstoppableDomainMethods";
 
 const client = new NFTStorage({ token: NFT_STORAGE_APIKEY });
 
@@ -17,7 +18,15 @@ function SendMail({ tablelandMethods, tableName, mailCount, openSnackbar }) {
   const sendMail = async () => {
     try{
       setLoading(true);
-      const tables = await fetch(`${tablelandMethods.options.host}/chain/${tablelandMethods.options.chainId}/tables/controller/${to}`).then(
+      let toAddress = to;
+      if(toAddress.includes(".")) {
+        const UDdata = await resolveUnstoppableDomainNamesIntoRecords(to);
+        if(UDdata.meta.owner){
+          toAddress = UDdata.meta.owner;
+        }
+      }
+      
+      const tables = await fetch(`${tablelandMethods.options.host}/chain/${tablelandMethods.options.chainId}/tables/controller/${toAddress}`).then(
         (r) => r.json()
       )
       console.log(tables[0].name);
@@ -42,7 +51,7 @@ function SendMail({ tablelandMethods, tableName, mailCount, openSnackbar }) {
           ],
           returnValueTest: {
             comparator: '=',
-            value: to
+            value: toAddress
           }
         }
       ]
@@ -80,8 +89,8 @@ function SendMail({ tablelandMethods, tableName, mailCount, openSnackbar }) {
       const cid = await client.storeDirectory([prepareToUpload]);
       console.log(cid);
       const dateNow = `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
-      const writeRes = await tablelandMethods.write(`INSERT INTO ${tables[0].name} (id, body, recipient, dateSent, isCopy) VALUES ('${toCount.rows.length + 1}', '${cid}', '${to}', '${dateNow}', 'no');`);
-      await tablelandMethods.write(`INSERT INTO ${tableName} (id, body, recipient, dateSent, isCopy) VALUES ('${seflCount.rows.length + 1}', '${cid}', '${to}', '${dateNow}', 'yes');`);
+      const writeRes = await tablelandMethods.write(`INSERT INTO ${tables[0].name} (id, body, recipient, dateSent, isCopy) VALUES ('${toCount.rows.length + 1}', '${cid}', '${toAddress}', '${dateNow}', 'no');`);
+      await tablelandMethods.write(`INSERT INTO ${tableName} (id, body, recipient, dateSent, isCopy) VALUES ('${seflCount.rows.length + 1}', '${cid}', '${toAddress}', '${dateNow}', 'yes');`);
       console.log(writeRes);
       openSnackbar();
       setLoading(false);
