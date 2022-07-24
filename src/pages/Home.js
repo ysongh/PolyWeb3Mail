@@ -9,6 +9,7 @@ import UAuth from '@uauth/js';
 import { UNSTOPPABLEDOMAINS_CLIENTID, UNSTOPPABLEDOMAINS_REDIRECT_URI } from '../config';
 
 import PolyWeb3Mail from '../artifacts/contracts/PolyWeb3Mail.sol/PolyWeb3Mail.json';
+import Spinner from '../components/common/Spinner';
 
 const POLYWEB3MAIL_ADDRESS = "0xE5e63Dc57561A8eB0C7AeB4F96331f311E8C3FA7";
 
@@ -119,7 +120,7 @@ function Home({ setTablelandMethods, setTableName, setWalletAddress, setpw3eCont
             <p style={{ marginBottom: '1rem'}}>A decentralized and Web3 email platform</p>
 
             {loading
-              ? <p>Loading...</p>
+              ? <Spinner />
               : <>
                 <Button variant="contained" color="secondary" onClick={loginWithUnstoppableDomains} fullWidth>
                     Connect With Unstoppable Domain
