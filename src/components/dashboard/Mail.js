@@ -24,11 +24,11 @@ function Mail({ tablelandMethods, tableName, setMailCount, walletAddress, setCur
       const entries = resultsToObjects(readRes);
       let temp = [];
 
-      for (const { recipient, body, id } of entries) {
+      for (const { recipient, body, id, dateSent } of entries) {
         console.log(`${body}: ${id}`);
         const strData = await messageToDecrypt(body);
         const toObject = await JSON.parse(strData);
-        temp.push({ id, data: toObject, recipient});
+        temp.push({ id, data: toObject, recipient, dateSent});
       }
 
       setMails(temp);
