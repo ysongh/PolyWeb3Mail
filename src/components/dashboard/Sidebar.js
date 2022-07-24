@@ -5,6 +5,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import MessageIcon from '@mui/icons-material/Message';
 import SendIcon from '@mui/icons-material/Send';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
+import AddIcon from '@mui/icons-material/Add';
 
 const drawerLinks = [
   {
@@ -13,15 +14,11 @@ const drawerLinks = [
   },
   {
     "text": "My Send Mail",
-    "icon": <EmailIcon />
+    "icon": <SendIcon />
   },
   {
     "text": "Message",
     "icon": <MessageIcon />
-  },
-  {
-    "text": "Send",
-    "icon": <SendIcon />
   },
   {
     "text": "Setting",
@@ -47,6 +44,12 @@ function Sidebar({ setCurrentSection }) {
       <Toolbar className="primary-bg-color-100">
         <img src="./logo.png" alt="logo" style={{ width: '150px' }} />
       </Toolbar>
+      <Divider />
+      <div className="primary-bg-color-100" style={{ padding: ".7rem" }}>
+        <Button variant="contained" color="secondary" size="large" fullWidth startIcon={<AddIcon />} onClick={() => setCurrentSection("Send")}>
+          Compose
+        </Button>
+      </div>
       <Divider />
       <List className="primary-bg-color-100"  style={{ height: "100vh"}}>
         {drawerLinks.map((d, index) => (
