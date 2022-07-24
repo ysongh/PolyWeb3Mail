@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Paper } from '@mui/material';
+import { Paper, Checkbox } from '@mui/material';
 import { resultsToObjects } from "@tableland/sdk";
 import LitJsSdk from 'lit-js-sdk';
 
@@ -104,6 +104,7 @@ function Mail({ tablelandMethods, tableName, setMailCount, walletAddress, setCur
         ? <SkeletonPlaceholder />
         : mails.map(m => (
             <Paper key={m.id} style={{ display: 'flex', padding: '0 1rem', marginBottom: '1rem', cursor: "pointer" }} onClick={() => selectMail(m)}>
+              <Checkbox />
               <p style={{ color: 'grey', marginRight: '.5rem' }}>{formatAddress(m.recipient)} - </p>
               <p>{m.data.subject}</p>
             </Paper>

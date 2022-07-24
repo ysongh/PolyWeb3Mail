@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Paper } from '@mui/material';
+import { Paper, Checkbox } from '@mui/material';
 import { resultsToObjects } from "@tableland/sdk";
 
 import SkeletonPlaceholder from '../common/SkeletonPlaceholder';
@@ -41,6 +41,7 @@ function MySendMail({ tablelandMethods, tableName }) {
         ? <SkeletonPlaceholder />
         : mails.map(m => (
             <Paper key={m.id} style={{ display: 'flex', padding: '0 1rem', marginBottom: '1rem', cursor: "pointer" }}>
+              <Checkbox />
               <p style={{ color: 'grey', marginRight: '.5rem' }}>{formatAddress(m.recipient)} - </p>
               <p>{m.dateSent}</p>
             </Paper>
