@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, LinearProgress } from '@mui/material';
 import { NFTStorage, File } from 'nft.storage';
 import LitJsSdk from 'lit-js-sdk';
 import { ethers } from 'ethers';
@@ -119,7 +119,7 @@ function SendMail({ tablelandMethods, tableName, mailCount, openSnackbar }) {
         ? <Button variant="contained" color="secondary" size="large" onClick={sendMail}>
             Send Mail
           </Button>
-        : <p>Loading...</p>
+        : <LinearProgress color="secondary" />
       }
     </div>
   )
