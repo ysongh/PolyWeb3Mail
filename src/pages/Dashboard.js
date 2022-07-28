@@ -58,6 +58,7 @@ function Dashboard({ tablelandMethods, tableName, walletAddress, pw3eContract, d
             mailCount={mailCount}
             pw3eContract={pw3eContract}
             walletAddress={walletAddress}
+            domainData={domainData}
             openSnackbar={openSnackbar} /> }
         {currentSection === "Mail Detail"
           && <MailDetail

@@ -28,7 +28,7 @@ function Mail({ tablelandMethods, tableName, setMailCount, walletAddress, setCur
         console.log(`${body}: ${id}`);
         const strData = await messageToDecrypt(body);
         const toObject = await JSON.parse(strData);
-        temp.push({ id, data: toObject, recipient, dateSent});
+        temp.unshift({ id, data: toObject, recipient, dateSent});
       }
 
       setMails(temp);

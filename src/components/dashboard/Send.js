@@ -4,7 +4,7 @@ import SendMail from './SendMail';
 import SendNFT from './SendNFT';
 import SendPOAP from './SendPOAP';
 
-function Send({ tablelandMethods, tableName, mailCount, pw3eContract, openSnackbar, walletAddress }) {
+function Send({ tablelandMethods, tableName, mailCount, pw3eContract, openSnackbar, walletAddress, domainData }) {
   const [currentSection, setCurrentSection] = useState("Send Mail");
 
   const handleChange = (event, newValue) => {
@@ -27,7 +27,9 @@ function Send({ tablelandMethods, tableName, mailCount, pw3eContract, openSnackb
           tableName={tableName}
           mailCount={mailCount}
           pw3eContract={pw3eContract}
-          openSnackbar={openSnackbar} /> }
+          openSnackbar={openSnackbar}
+          walletAddress={walletAddress}
+          domainData={domainData} /> }
       {currentSection === "Send NFT"
         && <SendNFT /> }
       {currentSection === "Send POAP"

@@ -123,12 +123,12 @@ function Home({ setTablelandMethods, setTableName, setWalletAddress, setpw3eCont
               ? <Spinner />
               : <>
                 <Button variant="contained" color="secondary" onClick={loginWithUnstoppableDomains} fullWidth>
-                    Connect With Unstoppable Domain
+                  Login With Unstoppable Domain
                 </Button>
                 <br />
                 <br />
                 <Button variant="contained" color="secondary" onClick={connectWallet} fullWidth>
-                  Connect Wallet
+                  Login with MetaMask
                 </Button>
               </>
             }

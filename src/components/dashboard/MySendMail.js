@@ -24,7 +24,7 @@ function MySendMail({ tablelandMethods, tableName }) {
 
       for (const { recipient, body, id, dateSent } of entries) {
         console.log(`${body}: ${id}`);
-        temp.push({ id, data: body, recipient, dateSent});
+        temp.unshift({ id, data: body, recipient, dateSent});
       }
 
       setMails(temp);

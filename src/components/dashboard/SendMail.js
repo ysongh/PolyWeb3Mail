@@ -10,11 +10,12 @@ import { resolveUnstoppableDomainNamesIntoRecords } from "../../helpers/unstoppa
 
 const client = new NFTStorage({ token: NFT_STORAGE_APIKEY });
 
-function SendMail({ tablelandMethods, tableName, mailCount, openSnackbar }) {
+function SendMail({ tablelandMethods, tableName, mailCount, openSnackbar, walletAddress, domainData }) {
   const [to, setTo] = useState("");
   const [subject, setSubject] = useState(false);
   const [text, setText] = useState(false);
   const [loading, setLoading] = useState(false); 
+  const [transaction, setTransaction] = useState('');
 
   const sendMail = async () => {
     try{
@@ -90,9 +91,10 @@ function SendMail({ tablelandMethods, tableName, mailCount, openSnackbar }) {
       const cid = await client.storeDirectory([prepareToUpload]);
       console.log(cid);
       const dateNow = `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
-      const writeRes = await tablelandMethods.write(`INSERT INTO ${tables[0].name} (id, body, recipient, dateSent, isCopy) VALUES ('${toCount.rows.length + 1}', '${cid}', '${toAddress}', '${dateNow}', 'no');`);
+      const writeRes = await tablelandMethods.write(`INSERT INTO ${tables[0].name} (id, body, recipient, dateSent, isCopy) VALUES ('${toCount.rows.length + 1}', '${cid}', '${domainData?.sub.length > 0 ? domainData?.sub : walletAddress}', '${dateNow}', 'no');`);
       await tablelandMethods.write(`INSERT INTO ${tableName} (id, body, recipient, dateSent, isCopy) VALUES ('${seflCount.rows.length + 1}', '${cid}', '${toAddress}', '${dateNow}', 'yes');`);
       console.log(writeRes);
+      setTransaction(writeRes.hash);
       openSnackbar();
       setLoading(false);
     } catch(error) {
@@ -120,6 +122,14 @@ function SendMail({ tablelandMethods, tableName, mailCount, openSnackbar }) {
             Send Mail
           </Button>
         : <LinearProgress color="secondary" />
+      }
+      {transaction &&
+        <p style={{ fontSize: '1.2rem'}}>
+          Success, see transaction {" "}
+          <a href={`https://mumbai.polygonscan.com/tx/${transaction}`} target="_blank" rel="noopener noreferrer">
+            {transaction.substring(0, 10) + '...' + transaction.substring(56, 66)}
+          </a>
+        </p>
       }
     </div>
   )
