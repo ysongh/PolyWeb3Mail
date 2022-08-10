@@ -27,7 +27,7 @@ const drawerLinks = [
 ];
 const drawerWidth = 200;
 
-function Sidebar({ setCurrentSection }) {
+function Sidebar({ currentSection, setCurrentSection }) {
   return (
     <Drawer
       sx={{
@@ -54,11 +54,11 @@ function Sidebar({ setCurrentSection }) {
       <List className="primary-bg-color-100"  style={{ height: "100vh"}}>
         {drawerLinks.map((d, index) => (
           <ListItem key={index} disablePadding>
-            <ListItemButton>
+            <ListItemButton className={d.text === currentSection && "primary-bg-color-200"} onClick={() => setCurrentSection(d.text)}>
               <ListItemIcon>
                 {d.icon}
               </ListItemIcon>
-              <ListItemText primary={d.text} onClick={() => setCurrentSection(d.text)}/>
+              <ListItemText primary={d.text} />
             </ListItemButton>
           </ListItem>
         ))}

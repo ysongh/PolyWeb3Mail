@@ -33,7 +33,7 @@ function Dashboard({ tablelandMethods, tableName, walletAddress, pw3eContract, d
         walletAddress={walletAddress}
         domainData={domainData}
         setDomainData={setDomainData} />
-      <Sidebar setCurrentSection={setCurrentSection} />
+      <Sidebar currentSection={currentSection} setCurrentSection={setCurrentSection} />
       <Box
         className="primary-bg-color-200"
         component="main"
