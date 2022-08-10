@@ -44,7 +44,7 @@ function Mail({ tablelandMethods, tableName, setMailCount, walletAddress, setCur
   const messageToDecrypt = async (cid) => {
     console.warn(cid);
     try{
-      const chain = 'ethereum';
+      const chain = 'mumbai';
       const authSig = await LitJsSdk.checkAndSignAuthMessage({chain});
       const accessControlConditions = [
         {

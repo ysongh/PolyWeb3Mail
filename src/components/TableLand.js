@@ -92,7 +92,7 @@ function TableLand() {
   }
 
   const messageToEncrypt = async () => {
-    const chain = 'ethereum';
+    const chain = 'mumbai';
 
     const authSig = await LitJsSdk.checkAndSignAuthMessage({chain});
 
@@ -100,7 +100,7 @@ function TableLand() {
       {
         contractAddress: '',
         standardContractType: '',
-        chain: 'ethereum',
+        chain: 'mumbai',
         method: 'eth_getBalance',
         parameters: [':userAddress', 'latest'],
         returnValueTest: {
@@ -168,7 +168,7 @@ function TableLand() {
 
   const messageToDecrypt = async (cid) => {
     try{
-      const chain = 'ethereum';
+      const chain = 'mumbai';
 
       const authSig = await LitJsSdk.checkAndSignAuthMessage({chain});
 
@@ -176,7 +176,7 @@ function TableLand() {
         {
           contractAddress: '',
           standardContractType: '',
-          chain: 'ethereum',
+          chain: 'mumbai',
           method: 'eth_getBalance',
           parameters: [':userAddress', 'latest'],
           returnValueTest: {

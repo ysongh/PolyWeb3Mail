@@ -49,7 +49,7 @@ function SendPOAP({ tablelandMethods, openSnackbar, walletAddress }) {
       const toCount = await tablelandMethods.read(`SELECT * FROM ${tables[0].name} WHERE isCopy='no';`);
       console.warn(toCount);
 
-      const chain = 'ethereum';
+      const chain = 'mumbai';
       const authSig = await LitJsSdk.checkAndSignAuthMessage({chain});
       const accessControlConditions = [
         {

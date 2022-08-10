@@ -40,7 +40,7 @@ function SendMail({ tablelandMethods, tableName, mailCount, openSnackbar, wallet
       console.warn(seflCount);
 
       console.warn(to, subject, text, toAddress);
-      const chain = 'ethereum';
+      const chain = 'mumbai';
       const authSig = await LitJsSdk.checkAndSignAuthMessage({chain});
       const accessControlConditions = [
         {
