@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'
-import { AppBar, Toolbar, Typography, Button } from '@mui/material';
+import { AppBar, Toolbar, Chip, Button } from '@mui/material';
 import UAuth from '@uauth/js';
 
 import { UNSTOPPABLEDOMAINS_CLIENTID, UNSTOPPABLEDOMAINS_REDIRECT_URI } from '../../config';
@@ -34,9 +34,9 @@ function Navbar({ tableName, walletAddress, domainData, setDomainData }) {
       sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
     >
       <Toolbar style={{ display: 'flex', justifyContent: 'space-between'}}>
-        <Typography variant="p" noWrap component="div">
-          {formatAddress(domainData?.sub.length > 0 ? domainData?.sub : walletAddress)}
-        </Typography>
+        <Chip
+          className='primary-bg-color-100'
+          label={formatAddress(domainData?.sub.length > 0 ? domainData?.sub : walletAddress)} />
         <div style={{ display: 'flex', alignItems: 'center'}}>
           <Button variant="contained" color="secondary" onClick={logout}>
             Logout
