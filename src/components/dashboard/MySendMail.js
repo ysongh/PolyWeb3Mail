@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Paper, Checkbox } from '@mui/material';
+import { Paper, Typography, Checkbox } from '@mui/material';
 import { resultsToObjects } from "@tableland/sdk";
 
 import SkeletonPlaceholder from '../common/SkeletonPlaceholder';
@@ -39,13 +39,15 @@ function MySendMail({ tablelandMethods, tableName }) {
     <div>
       {loading
         ? <SkeletonPlaceholder />
-        : mails.map(m => (
-            <Paper key={m.id} style={{ display: 'flex', padding: '0 1rem', marginBottom: '1rem', cursor: "pointer" }}>
-              <Checkbox />
-              <p style={{ color: 'grey', marginRight: '.5rem' }}>{formatAddress(m.recipient)} - </p>
-              <p>{m.dateSent}</p>
-            </Paper>
-      ))}
+        : mails.length 
+          ? mails.map(m => (
+              <Paper key={m.id} style={{ display: 'flex', padding: '0 1rem', marginBottom: '1rem', cursor: "pointer" }}>
+                <Checkbox />
+                <p style={{ color: 'grey', marginRight: '.5rem' }}>{formatAddress(m.recipient)} - </p>
+                <p>{m.dateSent}</p>
+              </Paper>
+          )) :  <Typography variant="h3">No Mail Yet...</Typography>
+      }
     </div>
   )
 }

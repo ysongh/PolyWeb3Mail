@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Paper, Checkbox } from '@mui/material';
+import { Paper, Typography, Checkbox } from '@mui/material';
 import { resultsToObjects } from "@tableland/sdk";
 import LitJsSdk from 'lit-js-sdk';
 
@@ -102,13 +102,15 @@ function Mail({ tablelandMethods, tableName, setMailCount, walletAddress, setCur
     <div>
       {loading
         ? <SkeletonPlaceholder />
-        : mails.map(m => (
-            <Paper key={m.id} style={{ display: 'flex', padding: '0 1rem', marginBottom: '1rem', cursor: "pointer" }} onClick={() => selectMail(m)}>
-              <Checkbox />
-              <p style={{ color: 'grey', marginRight: '.5rem' }}>{formatAddress(m.recipient)} - </p>
-              <p>{m.data.subject}</p>
-            </Paper>
-      ))}
+        : mails.length 
+          ? mails.map(m => (
+              <Paper key={m.id} style={{ display: 'flex', padding: '0 1rem', marginBottom: '1rem', cursor: "pointer" }} onClick={() => selectMail(m)}>
+                <Checkbox />
+                <p style={{ color: 'grey', marginRight: '.5rem' }}>{formatAddress(m.recipient)} - </p>
+                <p>{m.data.subject}</p>
+              </Paper>
+      )) : <Typography variant="h3">No Mail Yet...</Typography>
+    }
     </div>
   )
 }
