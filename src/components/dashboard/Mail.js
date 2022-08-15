@@ -104,10 +104,13 @@ function Mail({ tablelandMethods, tableName, setMailCount, walletAddress, setCur
         ? <SkeletonPlaceholder />
         : mails.length 
           ? mails.map(m => (
-              <Paper key={m.id} style={{ display: 'flex', padding: '0 1rem', marginBottom: '1rem', cursor: "pointer" }} onClick={() => selectMail(m)}>
-                <Checkbox />
-                <p style={{ color: 'grey', marginRight: '.5rem' }}>{formatAddress(m.recipient)} - </p>
-                <p>{m.data.subject}</p>
+              <Paper key={m.id} style={{ display: 'flex', justifyContent: "space-between" ,padding: '0 1rem', marginBottom: '1rem', cursor: "pointer" }} onClick={() => selectMail(m)}>
+                <div style={{ display: 'flex' }}>
+                  <Checkbox />
+                  <p style={{ color: 'grey', marginRight: '.5rem' }}>{formatAddress(m.recipient)} - </p>
+                  <p>{m.data.subject}</p>
+                </div>
+                <p>{m.dateSent}</p>
               </Paper>
       )) : <Typography variant="h3">No Mail Yet...</Typography>
     }
