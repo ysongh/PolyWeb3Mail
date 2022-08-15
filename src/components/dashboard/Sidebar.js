@@ -16,10 +16,10 @@ const drawerLinks = [
     "text": "My Send Mail",
     "icon": <SendIcon />
   },
-  {
-    "text": "Message",
-    "icon": <MessageIcon />
-  },
+  // {
+  //   "text": "Message",
+  //   "icon": <MessageIcon />
+  // },
   {
     "text": "Setting",
     "icon": <SettingsSuggestIcon />
