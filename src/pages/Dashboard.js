@@ -63,6 +63,9 @@ function Dashboard({ tablelandMethods, tableName, walletAddress, pw3eContract, d
         {currentSection === "Mail Detail"
           && <MailDetail
             currentMail={currentMail}
+            tableName={tableName}
+            tablelandMethods={tablelandMethods}
+            openSnackbar={openSnackbar}
             setCurrentSection={setCurrentSection} /> }
         {currentSection === "My Send Mail"
           && <MySendMail

@@ -3,7 +3,14 @@ import { Paper, IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-function MailDetail({ currentMail, setCurrentSection }) {
+function MailDetail({ currentMail, tableName, tablelandMethods, openSnackbar, setCurrentSection }) {
+  const deleteMail = async () => {
+    const removeRes = await tablelandMethods.write(`DELETE FROM ${tableName} WHERE id = ${currentMail.id};`);
+    console.log(removeRes);
+    openSnackbar();
+    setCurrentSection("All Mail");
+  }
+
   return (
     <>
       <Paper style={{ padding: "0 1rem 0 0", marginBottom: ".5rem" }}>
@@ -13,7 +20,7 @@ function MailDetail({ currentMail, setCurrentSection }) {
               <ArrowBackIcon fontSize="inherit" />
             </IconButton>
             <IconButton size="large" color="secondary">
-              <DeleteIcon fontSize="inherit" />
+              <DeleteIcon fontSize="inherit" onClick={deleteMail} />
             </IconButton>
           </div>
          
