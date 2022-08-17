@@ -79,7 +79,7 @@ function Dashboard({ tablelandMethods, tableName, walletAddress, pw3eContract, d
       </Box>
       <Snackbar
         open={open}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right',}}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right'}}
         autoHideDuration={2000}
         onClose={closeSnackbar}
         message="Success"
