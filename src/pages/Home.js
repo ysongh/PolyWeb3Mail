@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { Container, Card, CardContent, Button } from '@mui/material';
+import { Container, Card, CardContent, Divider, Button } from '@mui/material';
 import { connect } from "@tableland/sdk";
 import { ethers } from 'ethers';
 import Web3Modal from 'web3modal';
@@ -119,16 +119,18 @@ function Home({ setTablelandMethods, setTableName, setWalletAddress, setpw3eCont
             <h1 style={{ marginBottom: '.3rem' }}>Welcome to PolyWeb3Mail</h1>
             <p style={{ marginBottom: '1rem'}}>A decentralized and Web3 email platform</p>
 
+            <Divider>Login With</Divider>
+            <br />
             {loading
               ? <Spinner />
               : <>
                 <Button variant="contained" color="secondary" onClick={loginWithUnstoppableDomains} fullWidth>
-                  Login With Unstoppable Domain
+                  Unstoppable Domain
                 </Button>
                 <br />
                 <br />
                 <Button variant="contained" color="secondary" onClick={connectWallet} fullWidth>
-                  Login with MetaMask
+                  MetaMask
                 </Button>
               </>
             }
