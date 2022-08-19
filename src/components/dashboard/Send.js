@@ -17,7 +17,7 @@ function Send({ tablelandMethods, tableName, mailCount, pw3eContract, openSnackb
         <Tabs value={currentSection} onChange={handleChange}>
           <Tab label="Send Mail" value="Send Mail" />
           <Tab label="Send NFT" value="Send NFT" />
-          <Tab label="Send POAP" value="Send POAP" />
+          {/* <Tab label="Send POAP" value="Send POAP" /> */}
         </Tabs>
       </Box>
       <br />
