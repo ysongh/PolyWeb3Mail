@@ -62,7 +62,6 @@ function Sidebar({ currentSection, setCurrentSection }) {
             </ListItemButton>
           </ListItem>
         ))}
-        <Divider />
       </List>
     </Drawer>
   )
