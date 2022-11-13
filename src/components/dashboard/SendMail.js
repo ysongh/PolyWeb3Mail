@@ -3,6 +3,7 @@ import { TextField, Button, LinearProgress } from '@mui/material';
 import { NFTStorage, File } from 'nft.storage';
 import LitJsSdk from 'lit-js-sdk';
 import { ethers } from 'ethers';
+import { v4 as uuidv4 } from 'uuid';
 
 import { NFT_STORAGE_APIKEY } from '../../config';
 import { blobToDataURI } from '../../helpers/convertMethods';
@@ -10,7 +11,7 @@ import { resolveUnstoppableDomainNamesIntoRecords } from "../../helpers/unstoppa
 
 const client = new NFTStorage({ token: NFT_STORAGE_APIKEY });
 
-function SendMail({ tablelandMethods, tableName, mailCount, openSnackbar, walletAddress, domainData }) {
+function SendMail({ tablelandMethods, tableName, openSnackbar, walletAddress, domainData }) {
   const [to, setTo] = useState("");
   const [subject, setSubject] = useState(false);
   const [text, setText] = useState(false);
@@ -91,8 +92,8 @@ function SendMail({ tablelandMethods, tableName, mailCount, openSnackbar, wallet
       const cid = await client.storeDirectory([prepareToUpload]);
       console.log(cid);
       const dateNow = `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
-      const writeRes = await tablelandMethods.write(`INSERT INTO ${tables[0].name} (id, body, recipient, dateSent, isCopy) VALUES ('${toCount.rows.length + 1}', '${cid}', '${domainData?.sub.length > 0 ? domainData?.sub : walletAddress}', '${dateNow}', 'no');`);
-      await tablelandMethods.write(`INSERT INTO ${tableName} (id, body, recipient, dateSent, isCopy) VALUES ('${seflCount.rows.length + 1}', '${cid}', '${toAddress}', '${dateNow}', 'yes');`);
+      const writeRes = await tablelandMethods.write(`INSERT INTO ${tables[0].name} (id, body, recipient, dateSent, isCopy) VALUES ('${uuidv4()}', '${cid}', '${domainData?.sub.length > 0 ? domainData?.sub : walletAddress}', '${dateNow}', 'no');`);
+      await tablelandMethods.write(`INSERT INTO ${tableName} (id, body, recipient, dateSent, isCopy) VALUES ('${uuidv4()}', '${cid}', '${toAddress}', '${dateNow}', 'yes');`);
       console.log(writeRes);
       setTransaction(writeRes.hash);
       openSnackbar();

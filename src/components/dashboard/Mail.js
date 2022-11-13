@@ -18,7 +18,7 @@ function Mail({ tablelandMethods, tableName, setMailCount, walletAddress, setCur
   const loadMails = async () => {
     try{
       setLoading(true);
-      const readRes = await tablelandMethods.read(`SELECT * FROM ${tableName} WHERE isCopy='no';`);
+      const readRes = await tablelandMethods.read(`SELECT * FROM ${tableName}`);
       console.warn(readRes);
 
       const entries = resultsToObjects(readRes);
