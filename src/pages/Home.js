@@ -80,7 +80,7 @@ function Home({ setTablelandMethods, setTableName, setWalletAddress, setpw3eCont
       }
       else {
         const { name } = await tableland.create(
-          `body text, recipient text, dateSent text, isCopy text, id int, primary key (id)`, // Table schema definition
+          `body text, recipient text, dateSent text, isCopy text, id text, primary key (id)`, // Table schema definition
           `myEmail` // Optional `prefix` used to define a human-readable string
         );
     
