@@ -15,4 +15,8 @@ contract PolyWeb3Mail {
     function addAddressToSend(address _to) external {
         allowSendEMailAddresses[msg.sender].push(_to);
     }
+
+    function getAllAddressesCanSend(address _from) external view returns (address[] memory) {
+        return allowSendEMailAddresses[_from];
+    }
 }
