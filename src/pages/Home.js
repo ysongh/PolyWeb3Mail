@@ -11,7 +11,7 @@ import { UNSTOPPABLEDOMAINS_CLIENTID, UNSTOPPABLEDOMAINS_REDIRECT_URI } from '..
 import PolyWeb3Mail from '../artifacts/contracts/PolyWeb3Mail.sol/PolyWeb3Mail.json';
 import Spinner from '../components/common/Spinner';
 
-const POLYWEB3MAIL_ADDRESS = "0xE5e63Dc57561A8eB0C7AeB4F96331f311E8C3FA7";
+const POLYWEB3MAIL_ADDRESS = "0xba542E18a9d67d015ce68c22C6b8a30698B26179";
 
 const uauth = new UAuth({
   clientID: UNSTOPPABLEDOMAINS_CLIENTID,

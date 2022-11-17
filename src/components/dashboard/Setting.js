@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { Paper, TextField, Button } from '@mui/material';
 
-function Setting({ tablelandMethods, tableName, openSnackbar }) {
+function Setting({ tablelandMethods, tableName, pw3eContract, openSnackbar }) {
   const [toAddress, setToAddress] = useState("");
 
   const grantWriteAccesssTable = async () => {
     const res = await tablelandMethods.write(`GRANT INSERT ON ${tableName} TO '${toAddress}'`);
     console.log(res);
+
+    const transaction = await pw3eContract.addAddressToSend(toAddress);
+    const tx = await transaction.wait();
+    console.log(tx);
+
     openSnackbar();
   }
 
