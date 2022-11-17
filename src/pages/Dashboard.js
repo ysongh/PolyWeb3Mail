@@ -75,6 +75,7 @@ function Dashboard({ tablelandMethods, tableName, walletAddress, pw3eContract, d
           && <Setting
             tablelandMethods={tablelandMethods}
             tableName={tableName}
+            walletAddress={walletAddress}
             pw3eContract={pw3eContract}
             openSnackbar={openSnackbar} /> }
       </Box>
