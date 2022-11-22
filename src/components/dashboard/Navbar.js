@@ -38,7 +38,7 @@ function Navbar({ tableName, walletAddress, domainData, setDomainData }) {
           className='primary-bg-color-100'
           label={formatAddress(domainData?.sub.length > 0 ? domainData?.sub : walletAddress)} />
         <div style={{ display: 'flex', alignItems: 'center'}}>
-          <Button variant="contained" color="secondary" onClick={logout}>
+          <Button variant="contained" color="error" onClick={logout}>
             Logout
           </Button>
         </div>
