@@ -119,7 +119,7 @@ function SendMail({ tablelandMethods, tableName, openSnackbar, walletAddress, do
       <br />
       <br />
       {!loading
-        ? <Button variant="contained" color="secondary" size="large" onClick={sendMail}>
+        ? <Button variant="contained" color="secondary" size="large" onClick={sendMail} disabled={!to || !subject || !text} >
             Send Mail
           </Button>
         : <LinearProgress color="secondary" />
